@@ -1,29 +1,36 @@
-const apiPath = 'abc111';
-const url = `https://vue3-course-api.hexschool.io/v2/`;
-const token = document.cookie;
-const config = {
-    headers: { Authorization: token },
-}
+
 const { createApp } = Vue;
 const app = {
     data() {
         return {
             products: [],
-            temp: {}
+            temp: {},
+            apiPath: 'abc111',
+            url: `https://vue3-course-api.hexschool.io/v2/`,
         }
     },
-    created() {
-        if (token == "" || token == undefined) {
-            alert('請先登入');
-            window.location = 'login.html';
-        }
-        axios.get(`${url}api/${apiPath}/admin/products/all`, config)
-            .then(res => this.products = Object.values(res.data.products))
-            .catch(err => console.log(err))
-
+    mounted() {
+        const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+        axios.defaults.headers.common.Authorization = token;
+        this.checkApi();
     },
     methods: {
-
+        checkApi() {
+            axios.post(`${this.url}api/user/check`)
+                .then(() => this.getProducts())
+                .catch(err => {
+                    alert(err.response.data.message);
+                    window.location = 'login.html';
+                })
+        },
+        getProducts() {
+            axios.get(`${this.url}api/${this.apiPath}/admin/products`)
+                .then(res => {
+                    this.products = res.data.products;
+                    console.log(res.data)
+                })
+                .catch(err => alert(err.response.data.message))
+        }
     },
 }
 createApp(app).mount('#app');

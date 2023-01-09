@@ -26,21 +26,22 @@
                                 <th scope="col">查看細節</th>
                             </tr>
                         </thead>
-                        <tbody v-for="item in products" :key="item.title">
+                        <tbody v-for="product in products" :key="product.title">
                             <tr>
-                                <td>{{item.title}}</td>
-                                <td>{{item.origin_price}}</td>
-                                <td>{{item.price}}</td>
+                                <td>{{product.title}}</td>
+                                <td><del>NT$ {{product.origin_price.toLocaleString()}}</del></td>
+                                <td>NT$ {{product.price.toLocaleString()}}</td>
                                 <td>
-                                    <div v-if="item.is_enabled" class=" text-success">啟用</div>
+                                    <div v-if="product.is_enabled" class=" text-success">啟用</div>
                                     <div v-else>未啟用</div>
                                 </td>
-                                <td><button type="button" class="btn btn-dark" v-on:click="temp = item">查看細節</button>
+                                <td><button type="button" class="btn btn-dark" v-on:click="temp = product">查看細節</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <p>目前有 {{products.length}}項產品</p>
+                    <a href="admin.html" class="btn btn-primary">回到產品管理</a>
                 </div>
                 <div class="col">
                     <h2>單一產品細節</h2>
@@ -55,12 +56,13 @@
                                     </span></h5>
                                 <p class="card-text">商品描述： <span> {{temp.description}}</span></p>
                                 <p class="card-text">商品內容：<span>{{temp.content}}</span></p>
-                                <p><span class="fs-4">${{temp.price}}</span> <del
-                                        class="text-muted">{{temp.origin_price}}</del> 個 / 元</p>
+                                <p><span class="fs-4">${{temp.price.toLocaleString()}}</span> <del
+                                        class="text-muted">{{temp.origin_price.toLocaleString()}}</del> {{temp.unit}} /
+                                    元</p>
                             </div>
                         </div>
-                        <img v-bind:src="e" alt="" style="width: 150px; height: 150px; object-fit: cover;"
-                            v-for="e in temp.imagesUrl" class="me-2">
+                        <img v-bind:src="image" alt="" style="width: 150px; height: 150px; object-fit: cover;"
+                            v-for="image in temp.imagesUrl" class="m-2">
 
                     </div>
 

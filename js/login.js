@@ -17,10 +17,10 @@ const app = {
             axios.post(`${url}admin/signin`, this.userData)
                 .then(res => {
                     alert(res.data.message);
-                    const token = res.data.token;
+                    const { token, expired } = res.data;
                     axios.defaults.headers.common['Authorization'] = token;
-                    document.cookie = token;
-                    window.location = 'products.html';
+                    document.cookie = `hexToken=${token};expires=${new Date(expired)}; path=/`;
+                    window.location = 'admin.html';
 
                 })
                 .catch(err => { alert('登入失敗,請重新登入') })
