@@ -22,6 +22,7 @@ createApp({
         const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
         axios.defaults.headers.common.Authorization = token;
         this.checkApi();
+
     },
     methods: {
         checkApi() {
@@ -62,10 +63,12 @@ createApp({
                 };
                 this.isNew = true;
                 productModal.show();
+
             } else if (state === 'edit') {
                 this.tempProduct = { ...item };
                 this.isNew = false;
                 productModal.show();
+
             } else if (state === 'delete') {
                 this.tempProduct = { ...item };
                 deleteModal.show();
